@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -70,9 +71,9 @@ class MainActivity : AppCompatActivity() {
 
         var loginDialog = AlertDialog.Builder(this)
             .setCancelable(false)
-            .setMessage("Please use Email to Register.")
+            .setMessage("Please use your Credentials")
             .setTitle("LOGIN ")
-            .setView(register_layout)
+            .setView(login_layout)
             .setPositiveButton("Login", object : DialogInterface.OnClickListener {
                 override fun onClick(dialogInterface: DialogInterface?, p1: Int) {
                     dialogInterface?.dismiss()
@@ -91,11 +92,6 @@ class MainActivity : AppCompatActivity() {
                             .show()
                         return
                     }
-                    if (phone_et.toString().isNullOrEmpty()) {
-                        Snackbar.make(root_layout, "Phone Number", Snackbar.LENGTH_LONG).show()
-                        return
-                    }
-
                     auth.signInWithEmailAndPassword(
                         email_et_signin.toString(),
                         password_et_signin.toString()
@@ -126,14 +122,14 @@ class MainActivity : AppCompatActivity() {
             .inflate(R.layout.layout_register, null, false)
 
         var registerDialog = AlertDialog.Builder(this)
-            .setCancelable(true)
+            .setCancelable(false)
             .setMessage("Please use Email to Register.")
             .setTitle("REGISTER ")
             .setView(register_layout)
             .setPositiveButton("REGISTER", object : DialogInterface.OnClickListener {
                 override fun onClick(dialogInterface: DialogInterface?, p1: Int) {
                     dialogInterface?.dismiss()
-                    if (name_et.toString().isEmpty()) {
+                    if (name_et.toString().isNullOrEmpty()) {
                         Snackbar.make(root_layout, "Name Field is Empty", Snackbar.LENGTH_LONG)
                             .show()
                         return
