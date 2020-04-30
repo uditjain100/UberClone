@@ -1,0 +1,5 @@
+<root>
+    <item name='android.widget.LinearLayout'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>
