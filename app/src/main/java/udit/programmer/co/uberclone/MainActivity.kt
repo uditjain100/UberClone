@@ -52,13 +52,15 @@ class MainActivity : AppCompatActivity() {
 
         btn_register.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                showRegisterDialog()
+                startActivity(Intent(this@MainActivity, Register_Activity::class.java))
+                //showRegisterDialog()
             }
         })
 
         btn_signin.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                showLoginDialog()
+                startActivity(Intent(this@MainActivity, Login_Activity::class.java))
+                // showLoginDialog()
             }
         })
 
@@ -77,24 +79,24 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Login", object : DialogInterface.OnClickListener {
                 override fun onClick(dialogInterface: DialogInterface?, p1: Int) {
                     dialogInterface?.dismiss()
-                    if (email_et.toString().isNullOrEmpty()) {
+                    if (email_et.text.toString().isNullOrEmpty()) {
                         Snackbar.make(root_layout, "Email Field is Empty", Snackbar.LENGTH_LONG)
                             .show()
                         return
                     }
-                    if (password_et.toString().isNullOrEmpty()) {
+                    if (password_et.text.toString().isNullOrEmpty()) {
                         Snackbar.make(root_layout, "Password Field is Empty", Snackbar.LENGTH_LONG)
                             .show()
                         return
                     }
-                    if (password_et.toString().length < 6) {
+                    if (password_et.text.toString().length < 6) {
                         Snackbar.make(root_layout, "Password is too Short", Snackbar.LENGTH_LONG)
                             .show()
                         return
                     }
                     auth.signInWithEmailAndPassword(
-                        email_et_signin.toString(),
-                        password_et_signin.toString()
+                        email_et_signin.text.toString(),
+                        password_et_signin.text.toString()
                     ).addOnSuccessListener {
                         startActivity(Intent(this@MainActivity, Welcome::class.java))
                         finish()
@@ -129,39 +131,45 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("REGISTER", object : DialogInterface.OnClickListener {
                 override fun onClick(dialogInterface: DialogInterface?, p1: Int) {
                     dialogInterface?.dismiss()
-                    if (name_et.toString().isNullOrEmpty()) {
+                    if (name_et?.text.isNullOrEmpty()) {
                         Snackbar.make(root_layout, "Name Field is Empty", Snackbar.LENGTH_LONG)
                             .show()
                         return
                     }
-                    if (email_et.toString().isNullOrEmpty()) {
+                    if (email_et?.text.isNullOrEmpty()) {
                         Snackbar.make(root_layout, "Email Field is Empty", Snackbar.LENGTH_LONG)
                             .show()
                         return
                     }
-                    if (password_et.toString().isNullOrEmpty()) {
+                    if (password_et?.text.isNullOrEmpty()) {
                         Snackbar.make(root_layout, "Password Field is Empty", Snackbar.LENGTH_LONG)
                             .show()
                         return
                     }
-                    if (password_et.toString().length < 6) {
+                    if (password_et.text!!.length < 6) {
                         Snackbar.make(root_layout, "Password is too Short", Snackbar.LENGTH_LONG)
                             .show()
                         return
                     }
-                    if (phone_et.toString().isNullOrEmpty()) {
-                        Snackbar.make(root_layout, "Phone Number", Snackbar.LENGTH_LONG).show()
+                    if (phone_et?.text.isNullOrEmpty()) {
+                        Snackbar.make(
+                            root_layout,
+                            "Phone Number field is empty",
+                            Snackbar.LENGTH_LONG
+                        ).show()
                         return
                     }
-                    auth.createUserWithEmailAndPassword(email_et.toString(), password_et.toString())
+                    auth.createUserWithEmailAndPassword(
+                        email_et.text.toString(),
+                        password_et.text.toString()
+                    )
                         .addOnSuccessListener {
-                            lateinit var user: User
-                            user.apply {
-                                name = name_et.toString()
-                                email = email_et.toString()
-                                password = password_et.toString()
-                                phone = phone_et.toString()
-                            }
+                            var user = User(
+                                name_et.text.toString(),
+                                email_et.text.toString(),
+                                password_et.text.toString(),
+                                phone_et.text.toString()
+                            )
                             users.child(FirebaseAuth.getInstance().currentUser!!.uid)
                                 .setValue(user)
                                 .addOnSuccessListener {

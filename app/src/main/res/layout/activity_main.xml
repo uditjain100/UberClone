@@ -39,15 +39,13 @@
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:orientation="vertical"
-        android:weightSum="2">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_signin"
             android:layout_width="270dp"
             android:layout_height="73dp"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@drawable/btn_signin_background"
             android:text="Sign In"
             android:textAllCaps="false"
