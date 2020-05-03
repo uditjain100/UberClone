@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         btn_signin.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 startActivity(Intent(this@MainActivity, Login_Activity::class.java))
-                // showLoginDialog()
+                //showLoginDialog()
             }
         })
 
@@ -69,139 +69,121 @@ class MainActivity : AppCompatActivity() {
     private fun showLoginDialog() {
 
         var login_layout = LayoutInflater.from(this)
-            .inflate(R.layout.layout_signin, null, false)
+            .inflate(R.layout.layout_signin, root_layout, false)
 
-        var loginDialog = AlertDialog.Builder(this)
+        AlertDialog.Builder(this)
             .setCancelable(false)
             .setMessage("Please use your Credentials")
             .setTitle("LOGIN ")
             .setView(login_layout)
-            .setPositiveButton("Login", object : DialogInterface.OnClickListener {
-                override fun onClick(dialogInterface: DialogInterface?, p1: Int) {
-                    dialogInterface?.dismiss()
-                    if (email_et.text.toString().isNullOrEmpty()) {
-                        Snackbar.make(root_layout, "Email Field is Empty", Snackbar.LENGTH_LONG)
-                            .show()
-                        return
-                    }
-                    if (password_et.text.toString().isNullOrEmpty()) {
-                        Snackbar.make(root_layout, "Password Field is Empty", Snackbar.LENGTH_LONG)
-                            .show()
-                        return
-                    }
-                    if (password_et.text.toString().length < 6) {
-                        Snackbar.make(root_layout, "Password is too Short", Snackbar.LENGTH_LONG)
-                            .show()
-                        return
-                    }
-                    auth.signInWithEmailAndPassword(
-                        email_et_signin.text.toString(),
-                        password_et_signin.text.toString()
-                    ).addOnSuccessListener {
-                        startActivity(Intent(this@MainActivity, Welcome::class.java))
-                        finish()
-                    }.addOnFailureListener {
-                        Snackbar.make(
-                            root_layout,
-                            "FAILED : " + it.toString(),
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
+            .setPositiveButton("Login") { dialogInterface: DialogInterface?, i: Int ->
+                if (email_et.text.toString().isNullOrEmpty()) {
+                    Snackbar.make(root_layout, "Email Field is Empty", Snackbar.LENGTH_LONG)
+                        .show()
                 }
-            })
-            .setNegativeButton("Cancel ", object : DialogInterface.OnClickListener {
-                override fun onClick(dialogInterface: DialogInterface?, which: Int) {
-                    dialogInterface?.dismiss()
+                if (password_et.text.toString().isNullOrEmpty()) {
+                    Snackbar.make(root_layout, "Password Field is Empty", Snackbar.LENGTH_LONG)
+                        .show()
                 }
-
-            })
+                if (password_et.text.toString().length < 6) {
+                    Snackbar.make(root_layout, "Password is too Short", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                auth.signInWithEmailAndPassword(
+                    email_et_signin.text.toString(),
+                    password_et_signin.text.toString()
+                ).addOnSuccessListener {
+                    startActivity(Intent(this@MainActivity, Welcome::class.java))
+                    finish()
+                }.addOnFailureListener {
+                    Snackbar.make(
+                        root_layout,
+                        "FAILED : " + it.toString(),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+                dialogInterface?.dismiss()
+            }
+            .setNegativeButton("Cancel ") { dialogInterface: DialogInterface?, i: Int ->
+                dialogInterface?.dismiss()
+            }
             .show()
     }
 
     private fun showRegisterDialog() {
 
         var register_layout = LayoutInflater.from(this)
-            .inflate(R.layout.layout_register, null, false)
+            .inflate(R.layout.layout_register, root_layout, false)
 
-        var registerDialog = AlertDialog.Builder(this)
+        AlertDialog.Builder(this)
             .setCancelable(false)
             .setMessage("Please use Email to Register.")
             .setTitle("REGISTER ")
             .setView(register_layout)
-            .setPositiveButton("REGISTER", object : DialogInterface.OnClickListener {
-                override fun onClick(dialogInterface: DialogInterface?, p1: Int) {
-                    dialogInterface?.dismiss()
-                    if (name_et?.text.isNullOrEmpty()) {
-                        Snackbar.make(root_layout, "Name Field is Empty", Snackbar.LENGTH_LONG)
-                            .show()
-                        return
+            .setPositiveButton("REGISTER") { dialogInterface: DialogInterface?, p1: Int ->
+                if (name_et?.text.isNullOrEmpty()) {
+                    Snackbar.make(root_layout, "Name Field is Empty", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                if (email_et?.text.isNullOrEmpty()) {
+                    Snackbar.make(root_layout, "Email Field is Empty", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                if (password_et?.text.isNullOrEmpty()) {
+                    Snackbar.make(root_layout, "Password Field is Empty", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                if (password_et.text!!.length < 6) {
+                    Snackbar.make(root_layout, "Password is too Short", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                if (phone_et?.text.isNullOrEmpty()) {
+                    Snackbar.make(
+                        root_layout,
+                        "Phone Number field is empty",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+                auth.createUserWithEmailAndPassword(
+                    email_et.text.toString(),
+                    password_et.text.toString()
+                )
+                    .addOnSuccessListener {
+                        var user = User(
+                            name_et.text.toString(),
+                            email_et.text.toString(),
+                            password_et.text.toString(),
+                            phone_et.text.toString()
+                        )
+                        users.child(FirebaseAuth.getInstance().currentUser!!.uid)
+                            .setValue(user)
+                            .addOnSuccessListener {
+                                Snackbar.make(
+                                    root_layout,
+                                    "Registered Successfully",
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                            }
+                            .addOnFailureListener {
+                                Snackbar.make(
+                                    root_layout,
+                                    "FAILED : " + it.toString(),
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                            }
                     }
-                    if (email_et?.text.isNullOrEmpty()) {
-                        Snackbar.make(root_layout, "Email Field is Empty", Snackbar.LENGTH_LONG)
-                            .show()
-                        return
-                    }
-                    if (password_et?.text.isNullOrEmpty()) {
-                        Snackbar.make(root_layout, "Password Field is Empty", Snackbar.LENGTH_LONG)
-                            .show()
-                        return
-                    }
-                    if (password_et.text!!.length < 6) {
-                        Snackbar.make(root_layout, "Password is too Short", Snackbar.LENGTH_LONG)
-                            .show()
-                        return
-                    }
-                    if (phone_et?.text.isNullOrEmpty()) {
+                    .addOnFailureListener {
                         Snackbar.make(
                             root_layout,
-                            "Phone Number field is empty",
+                            "FAILED : " + it.toString(),
                             Snackbar.LENGTH_LONG
                         ).show()
-                        return
                     }
-                    auth.createUserWithEmailAndPassword(
-                        email_et.text.toString(),
-                        password_et.text.toString()
-                    )
-                        .addOnSuccessListener {
-                            var user = User(
-                                name_et.text.toString(),
-                                email_et.text.toString(),
-                                password_et.text.toString(),
-                                phone_et.text.toString()
-                            )
-                            users.child(FirebaseAuth.getInstance().currentUser!!.uid)
-                                .setValue(user)
-                                .addOnSuccessListener {
-                                    Snackbar.make(
-                                        root_layout,
-                                        "Registered Successfully",
-                                        Snackbar.LENGTH_LONG
-                                    ).show()
-                                }
-                                .addOnFailureListener {
-                                    Snackbar.make(
-                                        root_layout,
-                                        "FAILED : " + it.toString(),
-                                        Snackbar.LENGTH_LONG
-                                    ).show()
-                                }
-                        }
-                        .addOnFailureListener {
-                            Snackbar.make(
-                                root_layout,
-                                "FAILED : " + it.toString(),
-                                Snackbar.LENGTH_LONG
-                            ).show()
-                        }
-                }
-            })
-            .setNegativeButton("CANCEL", object : DialogInterface.OnClickListener {
-                override fun onClick(p0: DialogInterface?, p1: Int) {
-
-                }
-
-            })
+                dialogInterface?.dismiss()
+            }
+            .setNegativeButton("CANCEL") { dialogInterface: DialogInterface?, p1: Int ->
+                dialogInterface?.dismiss()
+            }
             .show()
 
 

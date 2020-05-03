@@ -3,10 +3,11 @@ package udit.programmer.co.uberclone
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_main.*
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_main.root_layout
 import kotlinx.android.synthetic.main.activity_register_.*
 import udit.programmer.co.uberclone.Models.User
@@ -29,6 +30,7 @@ class Register_Activity : AppCompatActivity() {
 
         btn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
+
                 auth.createUserWithEmailAndPassword(
                     email_et.text.toString(),
                     password_et.text.toString()
@@ -64,6 +66,7 @@ class Register_Activity : AppCompatActivity() {
                             Snackbar.LENGTH_LONG
                         ).show()
                     }
+                finish()
             }
 
         })
