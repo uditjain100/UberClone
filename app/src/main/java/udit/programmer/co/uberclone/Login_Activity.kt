@@ -33,8 +33,7 @@ class Login_Activity : AppCompatActivity() {
         login_btn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
-                btn_signin.isEnabled = false
-
+                login_btn.isEnabled = false
                 var loading_dialog =
                     SpotsDialog.Builder().setContext(this@Login_Activity).build()
                 loading_dialog.show()
@@ -49,11 +48,11 @@ class Login_Activity : AppCompatActivity() {
                 }.addOnFailureListener {
                     loading_dialog.dismiss()
                     Snackbar.make(
-                        root_layout,
+                        login_activity_layout,
                         "FAILED : " + it.toString(),
                         Snackbar.LENGTH_LONG
                     ).show()
-                    btn_signin.isEnabled = true
+                    login_btn.isEnabled = true
                 }
             }
 

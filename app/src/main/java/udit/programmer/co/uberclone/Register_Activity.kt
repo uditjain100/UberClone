@@ -10,6 +10,11 @@ import com.google.firebase.database.FirebaseDatabase
 import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_main.root_layout
 import kotlinx.android.synthetic.main.activity_register_.*
+import kotlinx.android.synthetic.main.activity_register_.email_et
+import kotlinx.android.synthetic.main.activity_register_.name_et
+import kotlinx.android.synthetic.main.activity_register_.password_et
+import kotlinx.android.synthetic.main.activity_register_.phone_et
+import kotlinx.android.synthetic.main.layout_register.*
 import udit.programmer.co.uberclone.Models.User
 
 class Register_Activity : AppCompatActivity() {
@@ -28,7 +33,7 @@ class Register_Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_)
 
-        btn.setOnClickListener(object : View.OnClickListener {
+        register_btn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
                 auth.createUserWithEmailAndPassword(
@@ -46,14 +51,14 @@ class Register_Activity : AppCompatActivity() {
                             .setValue(user)
                             .addOnSuccessListener {
                                 Snackbar.make(
-                                    root_layout,
+                                    register_activity_layout,
                                     "Registered Successfully",
                                     Snackbar.LENGTH_LONG
                                 ).show()
                             }
                             .addOnFailureListener {
                                 Snackbar.make(
-                                    root_layout,
+                                    register_activity_layout,
                                     "FAILED : " + it.toString(),
                                     Snackbar.LENGTH_LONG
                                 ).show()
@@ -61,7 +66,7 @@ class Register_Activity : AppCompatActivity() {
                     }
                     .addOnFailureListener {
                         Snackbar.make(
-                            root_layout,
+                            register_activity_layout,
                             "FAILED : " + it.toString(),
                             Snackbar.LENGTH_LONG
                         ).show()
