@@ -10,11 +10,11 @@
         android:id="@+id/animation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitCenter"
         android:background="@color/Black"
-        app:lottie_autoPlay="true"
         android:defaultFocusHighlightEnabled="true"
+        android:scaleType="fitCenter"
         android:soundEffectsEnabled="true"
+        app:lottie_autoPlay="true"
         app:lottie_fileName="loading.json"
         app:lottie_loop="true" />
 

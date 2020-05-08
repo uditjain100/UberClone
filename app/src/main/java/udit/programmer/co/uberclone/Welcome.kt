@@ -4,12 +4,17 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.provider.Settings
+import android.view.animation.LinearInterpolator
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -20,24 +25,24 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 class Welcome : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     lateinit var mCurrent: Marker
-    lateinit var googleApiClient: GoogleApiClient
+    lateinit var drivers: DatabaseReference
+    //  lateinit var googleApiClient: GoogleApiClient
     val fusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
-    //    val fusedLocationApiClient by lazy {
+    //  val fusedLocationApiClient by lazy {
 //        LocationServices.FusedLocationApi
 //    }
-//    val lastLocation by lazy {
+//  val lastLocation by lazy {
 //        LocationServices.FusedLocationApi
 //    }
     val locationRequest by lazy {
@@ -163,14 +168,41 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
                     for (location in locationResult.locations) {
                         val curr = LatLng(location.latitude, location.longitude)
                         if (::mMap.isInitialized) {
-                            mMap.addMarker(MarkerOptions().position(curr).title("Current Position"))
+                            mCurrent =
+                                mMap.addMarker(
+                                    MarkerOptions().position(curr).icon(
+                                        BitmapDescriptorFactory.fromResource(R.drawable.car)
+                                    ).title("Current Position")
+                                )
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(curr))
+                            mMap.setMapStyle(MapStyleOptions(resources.getString(R.string.style_json)))
                         }
                     }
                 }
             },
             Looper.myLooper()
         )
+        rotateMarker(mCurrent, -360, mMap)
+
+
+    }
+
+    private fun rotateMarker(mCurrent: Marker, i: Int, mMap: GoogleMap) {
+
+        var start = SystemClock.uptimeMillis()
+        val startRotation = mCurrent.rotation
+        val duration: Long = 1500
+        var handler = Handler()
+        val interpolator = LinearInterpolator()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                val time_elapsed = SystemClock.uptimeMillis() - start
+                var t = interpolator.getInterpolation((time_elapsed / duration).toFloat())
+                var rotation = t * i + (1 - t) * startRotation
+                mCurrent.rotation = if (-rotation > 180) rotation / 2 else rotation
+                if (t < 1.0) handler.postDelayed(this, 16)
+            }
+        }, 1000)
 
     }
 
@@ -181,7 +213,8 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
                 for (location in locationResult.locations) {
                     val curr = LatLng(location.latitude, location.longitude)
                     if (::mMap.isInitialized) {
-                        mMap.addMarker(MarkerOptions().position(curr).title("Current Position"))
+                        mCurrent =
+                            mMap.addMarker(MarkerOptions().position(curr).title("Current Position"))
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(curr))
                     }
                 }
@@ -219,7 +252,7 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
 
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mCurrent = mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }

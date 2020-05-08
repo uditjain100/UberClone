@@ -14,17 +14,16 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/btn_signin_background"
             android:padding="16dp"
             android:weightSum="10">
 
             <Switch
                 android:id="@+id/location_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="10dp"
                 android:defaultFocusHighlightEnabled="false"
