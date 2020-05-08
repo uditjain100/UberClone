@@ -175,6 +175,7 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
                                     ).title("Current Position")
                                 )
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(curr))
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(20f))
                             mMap.setMapStyle(MapStyleOptions(resources.getString(R.string.style_json)))
                         }
                     }
