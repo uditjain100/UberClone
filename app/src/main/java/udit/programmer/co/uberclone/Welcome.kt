@@ -35,16 +35,9 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     lateinit var mCurrent: Marker
     lateinit var drivers: DatabaseReference
-    //  lateinit var googleApiClient: GoogleApiClient
     val fusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
-    //  val fusedLocationApiClient by lazy {
-//        LocationServices.FusedLocationApi
-//    }
-//  val lastLocation by lazy {
-//        LocationServices.FusedLocationApi
-//    }
     val locationRequest by lazy {
         LocationRequest()
             .setInterval(2000)
@@ -56,10 +49,12 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
         getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
+    //Car Animations
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)

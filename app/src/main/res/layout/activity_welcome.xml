@@ -1,64 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Welcome">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/layout_panel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6">
 
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+        <EditText
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/Gray"
-            app:cardElevation="10dp">
+            android:layout_margin="10dp"
+            android:layout_weight="5"
+            android:hint="Enter Pickup Location" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:weightSum="10">
+        <Button
+            android:id="@+id/btn_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="GO" />
 
-                <Switch
-                    android:id="@+id/location_switch"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:defaultFocusHighlightEnabled="false" />
+    </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_find_user"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="7"
-                    android:background="@drawable/btn_signin_background"
-                    android:text="USER" />
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_panel"
+        tools:context=".Welcome" />
 
-                <!--            <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch-->
-                <!--                android:id="@+id/location_switch"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                app:base_release_color="@color/Black"-->
-                <!--                app:base_press_color="@color/OrangeRed"-->
-                <!--                app:ball_release_color="@color/DeepPink"-->
-                <!--                app:ball_press_color="@color/Fuchsia"-->
-                <!--                app:icon_release="@drawable/location_off"-->
-                <!--                app:icon_press="@drawable/location_press"-->
-                <!--                />-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:cardElevation="10dp">
 
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_signin_background"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:weightSum="10">
 
-        </androidx.cardview.widget.CardView>
+            <Switch
+                android:id="@+id/location_switch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:defaultFocusHighlightEnabled="false" />
 
-    </RelativeLayout>
-</fragment>
+            <Button
+                android:id="@+id/btn_find_user"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:background="@drawable/btn_signin_background"
+                android:text="FIND USER"
+                android:textStyle="bold" />
+
+            <!--            <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch-->
+            <!--                android:id="@+id/location_switch"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:base_release_color="@color/Black"-->
+            <!--                app:base_press_color="@color/OrangeRed"-->
+            <!--                app:ball_release_color="@color/DeepPink"-->
+            <!--                app:ball_press_color="@color/Fuchsia"-->
+            <!--                app:icon_release="@drawable/location_off"-->
+            <!--                app:icon_press="@drawable/location_press"-->
+            <!--                />-->
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
