@@ -1,15 +1,15 @@
 package udit.programmer.co.uberclone
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.location.LocationManager
+import android.location.LocationProvider
+import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
 import android.provider.Settings
 import android.view.animation.LinearInterpolator
 import android.widget.CompoundButton
@@ -51,6 +51,9 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
             .setFastestInterval(2000)
             .setSmallestDisplacement(1f)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+    }
+    val locationManager by lazy {
+        getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,7 +103,11 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
     override fun onStart() {
         requestFineLocation()
         super.onStart()
-        if (!isFineLocationGranted()) {
+        if (isFineLocationGranted()) {
+            if (!isLocationEnabled()) {
+                showGPS_NotDialog()
+            }
+        } else {
             showGPS_NotDialog()
         }
     }
@@ -112,7 +119,11 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
     ) {
         when (requestCode) {
             999 -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (!isFineLocationGranted()) {
+                if (isFineLocationGranted()) {
+                    if (!isLocationEnabled()) {
+                        showGPS_NotDialog()
+                    }
+                } else {
                     showGPS_NotDialog()
                 }
             } else {
@@ -130,6 +141,11 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 dialogInterface?.dismiss()
             }).show()
+            .dismiss()
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
     private fun isFineLocationGranted(): Boolean {
@@ -184,8 +200,6 @@ class Welcome : AppCompatActivity(), OnMapReadyCallback {
             Looper.myLooper()
         )
         rotateMarker(mCurrent, -360, mMap)
-
-
     }
 
     private fun rotateMarker(mCurrent: Marker, i: Int, mMap: GoogleMap) {

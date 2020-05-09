@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -13,34 +13,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentRight="true"
-            android:padding="16dp"
-            android:weightSum="10">
+            android:layout_alignParentBottom="true"
+            android:background="@color/Gray"
+            app:cardElevation="10dp">
 
-            <Switch
-                android:id="@+id/location_switch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:defaultFocusHighlightEnabled="false"
-                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:weightSum="10">
 
+                <Switch
+                    android:id="@+id/location_switch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:defaultFocusHighlightEnabled="false" />
 
-<!--            <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch-->
-<!--                android:id="@+id/location_switch"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:base_release_color="@color/Black"-->
-<!--                app:base_press_color="@color/OrangeRed"-->
-<!--                app:ball_release_color="@color/DeepPink"-->
-<!--                app:ball_press_color="@color/Fuchsia"-->
-<!--                app:icon_release="@drawable/location_off"-->
-<!--                app:icon_press="@drawable/location_press"-->
-<!--                />-->
+                <Button
+                    android:id="@+id/btn_find_user"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:background="@drawable/btn_signin_background"
+                    android:text="USER" />
 
-        </LinearLayout>
+                <!--            <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch-->
+                <!--                android:id="@+id/location_switch"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                app:base_release_color="@color/Black"-->
+                <!--                app:base_press_color="@color/OrangeRed"-->
+                <!--                app:ball_release_color="@color/DeepPink"-->
+                <!--                app:ball_press_color="@color/Fuchsia"-->
+                <!--                app:icon_release="@drawable/location_off"-->
+                <!--                app:icon_press="@drawable/location_press"-->
+                <!--                />-->
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 </fragment>
