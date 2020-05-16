@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                     email_et_signin.text.toString(),
                     password_et_signin.text.toString()
                 ).addOnSuccessListener {
-                    startActivity(Intent(this@MainActivity, Welcome::class.java))
+                    startActivity(Intent(this@MainActivity, WelComeActivity::class.java))
                     finish()
                 }.addOnFailureListener {
                     Snackbar.make(
