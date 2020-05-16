@@ -11,5 +11,4 @@ object RetrofitClient {
     val retrofit_client = Retrofit.Builder()
         .baseUrl("https://maps.googleapis.com").addConverterFactory(GsonConverterFactory.create(gson)).build()
     val google_api = retrofit_client.create(GoogleAPI::class.java)
-
 }

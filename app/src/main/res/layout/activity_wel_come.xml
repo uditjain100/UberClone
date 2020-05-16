@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:background="@drawable/btn_signin_background"
+                android:background="@drawable/btn_register_background"
                 android:text="FIND USER"
                 android:textStyle="bold" />
 

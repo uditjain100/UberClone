@@ -57,7 +57,7 @@ class Login_Activity : AppCompatActivity() {
                     password_et_signin.text.toString()
                 ).addOnSuccessListener {
                     loading_dialog.dismiss()
-                    startActivity(Intent(this@Login_Activity, Welcome::class.java))
+                    startActivity(Intent(this@Login_Activity, WelComeActivity::class.java))
                     finish()
                 }.addOnFailureListener {
                     loading_dialog.dismiss()

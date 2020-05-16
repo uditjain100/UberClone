@@ -195,5 +195,7 @@
     }
   ]
   </string>
+    <string name="title_activity_aisehi">Map</string>
+    <string name="title_activity_wel_come">Map</string>
 </resources>
 
